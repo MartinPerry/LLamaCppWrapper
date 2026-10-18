@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="3rdParty\jinja\jcaps.cpp" />
+    <ClCompile Include="3rdParty\jinja\jlexer.cpp" />
+    <ClCompile Include="3rdParty\jinja\jparser.cpp" />
+    <ClCompile Include="3rdParty\jinja\jruntime.cpp" />
+    <ClCompile Include="3rdParty\jinja\jstring.cpp" />
+    <ClCompile Include="3rdParty\jinja\jvalue.cpp" />
+    <ClCompile Include="3rdParty\json.cpp" />
+    <ClCompile Include="3rdParty\unicode.cpp" />
+    <ClCompile Include="Decisions\LLamaDecision.cpp" />
+    <ClCompile Include="Decisions\LLamaDecisionContext.cpp" />
+    <ClCompile Include="Decisions\LLamaDecisionMultiModal.cpp" />
+    <ClCompile Include="Decisions\LLamaDecisionTemplate.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionClef.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionCodeLabels.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionGraniteSwitch.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionKev.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionLaya.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionLev.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionLfm2D1.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionLfm2D1Omni.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionNimble.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionOpenJev.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionPplxDecider.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionVllmD3.cpp" />
+    <ClCompile Include="Decisions\Models\LLamaDecisionVllmDecision2.cpp" />
+    <ClCompile Include="LLamaChat.cpp" />
+    <ClCompile Include="LLamaChatMultiModal.cpp" />
+    <ClCompile Include="LLamaChatRunner.cpp" />
+    <ClCompile Include="LLamaChatRunnerMultiModal.cpp" />
+    <ClCompile Include="LLamaEmbedding.cpp" />
+    <ClCompile Include="LLamaUtils.cpp" />
+    <ClCompile Include="LLamaWrapper.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Utils\ColorSpace.cpp" />
+    <ClCompile Include="Utils\Image2d.cpp" />
+    <ClCompile Include="Utils\Logger.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="3rdParty\jinja\jcaps.h" />
+    <ClInclude Include="3rdParty\jinja\jlexer.h" />
+    <ClInclude Include="3rdParty\jinja\jparser.h" />
+    <ClInclude Include="3rdParty\jinja\jruntime.h" />
+    <ClInclude Include="3rdParty\jinja\jstring.h" />
+    <ClInclude Include="3rdParty\jinja\jutils.h" />
+    <ClInclude Include="3rdParty\jinja\jvalue.h" />
+    <ClInclude Include="3rdParty\json.h" />
+    <ClInclude Include="3rdParty\json_nlohmann.hpp" />
+    <ClInclude Include="3rdParty\unicode.h" />
+    <ClInclude Include="Decisions\LLamaDecision.h" />
+    <ClInclude Include="Decisions\LLamaDecisionContext.h" />
+    <ClInclude Include="Decisions\LLamaDecisionMultiModal.h" />
+    <ClInclude Include="Decisions\LLamaDecisionStructures.h" />
+    <ClInclude Include="Decisions\LLamaDecisionTemplate.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionClef.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionCodeLabels.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionGraniteSwitch.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionKev.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionLaya.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionLev.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionLfm2D1.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionLfm2D1Omni.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionNimble.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionOpenJev.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionPplxDecider.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionVllmD3.h" />
+    <ClInclude Include="Decisions\Models\LLamaDecisionVllmDecision2.h" />
+    <ClInclude Include="LLamaChat.h" />
+    <ClInclude Include="LLamaChatMultiModal.h" />
+    <ClInclude Include="LLamaChatRunner.h" />
+    <ClInclude Include="LLamaChatRunnerMultiModal.h" />
+    <ClInclude Include="LLamaEmbedding.h" />
+    <ClInclude Include="LLamaUtils.h" />
+    <ClInclude Include="LLamaWrapper.h" />
+    <ClInclude Include="Utils\ColorSpace.h" />
+    <ClInclude Include="Utils\Image2d.h" />
+    <ClInclude Include="Utils\Logger.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{5cefd249-8361-42a5-b4f5-f4e862f8a89a}</ProjectGuid>
+    <RootNamespace>LLamaCppWrapper</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>E:\Programming\Cpp\llama.cpp\include;E:\Programming\Cpp\llama.cpp\ggml\include;E:\Programming\Cpp\llama.cpp\common;E:\Programming\Cpp\llama.cpp\tools\mtmd;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Programming\Cpp\llama.cpp\build\bin\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

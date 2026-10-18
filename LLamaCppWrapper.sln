@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37710.0 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LLamaCppWrapper", "LLamaCppWrapper\LLamaCppWrapper.vcxproj", "{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}.Debug|x64.ActiveCfg = Debug|x64
+		{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}.Debug|x64.Build.0 = Debug|x64
+		{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}.Debug|x86.ActiveCfg = Debug|Win32
+		{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}.Debug|x86.Build.0 = Debug|Win32
+		{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}.Release|x64.ActiveCfg = Release|x64
+		{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}.Release|x64.Build.0 = Release|x64
+		{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}.Release|x86.ActiveCfg = Release|Win32
+		{5CEFD249-8361-42A5-B4F5-F4E862F8A89A}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C915AEC4-3133-406B-A3A0-645CB637C63C}
+	EndGlobalSection
+EndGlobal

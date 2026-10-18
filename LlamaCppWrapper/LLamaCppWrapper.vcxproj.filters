@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Decisions">
+      <UniqueIdentifier>{0bdc3434-17c6-4c65-8305-af841968940a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Decisions">
+      <UniqueIdentifier>{a099e03a-bce5-4bfe-9a3c-bc53df316e96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Decisions\Models">
+      <UniqueIdentifier>{72a2c324-4ca2-4981-a37a-406e14b76c30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Decisions\Models">
+      <UniqueIdentifier>{a980fd46-4181-4891-b248-e31e3511e508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3rdParty">
+      <UniqueIdentifier>{5d2070a8-f495-4931-9357-1308f4c1f9b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3rdParty">
+      <UniqueIdentifier>{5c585e77-d741-4d63-a3a6-4ce957ada26b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3rdParty\jinja">
+      <UniqueIdentifier>{1c6380f3-dc0b-44cf-a775-a8ccd6d35f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3rdParty\jinja">
+      <UniqueIdentifier>{5c96d6eb-9a78-463d-9154-31d95f3d0bf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{5eae10c8-adb8-4d06-91d5-823120058b94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{2d65be16-78a7-4f30-9b12-05713ef02688}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LLamaEmbedding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LLamaChat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LLamaChatMultiModal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LLamaChatRunner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LLamaChatRunnerMultiModal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LLamaUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LLamaWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\LLamaDecision.cpp">
+      <Filter>Source Files\Decisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\LLamaDecisionContext.cpp">
+      <Filter>Source Files\Decisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\LLamaDecisionMultiModal.cpp">
+      <Filter>Source Files\Decisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\LLamaDecisionTemplate.cpp">
+      <Filter>Source Files\Decisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionClef.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionCodeLabels.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionGraniteSwitch.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionKev.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionLaya.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionLev.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionLfm2D1.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionLfm2D1Omni.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionNimble.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionOpenJev.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionPplxDecider.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionVllmD3.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions\Models\LLamaDecisionVllmDecision2.cpp">
+      <Filter>Source Files\Decisions\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\json.cpp">
+      <Filter>Source Files\3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\unicode.cpp">
+      <Filter>Source Files\3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\jinja\jcaps.cpp">
+      <Filter>Source Files\3rdParty\jinja</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\jinja\jlexer.cpp">
+      <Filter>Source Files\3rdParty\jinja</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\jinja\jparser.cpp">
+      <Filter>Source Files\3rdParty\jinja</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\jinja\jruntime.cpp">
+      <Filter>Source Files\3rdParty\jinja</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\jinja\jstring.cpp">
+      <Filter>Source Files\3rdParty\jinja</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\jinja\jvalue.cpp">
+      <Filter>Source Files\3rdParty\jinja</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\ColorSpace.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Image2d.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Logger.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LLamaEmbedding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LLamaChat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LLamaChatMultiModal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LLamaChatRunner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LLamaChatRunnerMultiModal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LLamaUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LLamaWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\LLamaDecision.h">
+      <Filter>Header Files\Decisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\LLamaDecisionContext.h">
+      <Filter>Header Files\Decisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\LLamaDecisionMultiModal.h">
+      <Filter>Header Files\Decisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\LLamaDecisionStructures.h">
+      <Filter>Header Files\Decisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\LLamaDecisionTemplate.h">
+      <Filter>Header Files\Decisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionClef.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionCodeLabels.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionGraniteSwitch.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionKev.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionLaya.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionLev.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionLfm2D1.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionLfm2D1Omni.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionNimble.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionOpenJev.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionPplxDecider.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionVllmD3.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions\Models\LLamaDecisionVllmDecision2.h">
+      <Filter>Header Files\Decisions\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\json.h">
+      <Filter>Header Files\3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\json_nlohmann.hpp">
+      <Filter>Header Files\3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\unicode.h">
+      <Filter>Header Files\3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\jinja\jcaps.h">
+      <Filter>Header Files\3rdParty\jinja</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\jinja\jlexer.h">
+      <Filter>Header Files\3rdParty\jinja</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\jinja\jparser.h">
+      <Filter>Header Files\3rdParty\jinja</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\jinja\jruntime.h">
+      <Filter>Header Files\3rdParty\jinja</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\jinja\jstring.h">
+      <Filter>Header Files\3rdParty\jinja</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\jinja\jutils.h">
+      <Filter>Header Files\3rdParty\jinja</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdParty\jinja\jvalue.h">
+      <Filter>Header Files\3rdParty\jinja</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ColorSpace.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Image2d.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Logger.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

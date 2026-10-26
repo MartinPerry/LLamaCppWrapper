@@ -3,14 +3,12 @@
 
 #if __has_include (<llama.h>)
 
-#include "../LLamaDecisionContext.h"
+#include "../LLamaDecisionContextMultiModal.h"
 
-class Lfm2D1OmniDecisionContext : public DecisionContext 
+class Lfm2D1OmniDecisionContext : public DecisionContextMultiModal
 {
 public:
     Lfm2D1OmniDecisionContext();
-
-    bool SupportsMedia() const override;
 
     void FillTask(const std::string& state, const std::vector<PreparedQuestion>& questions,
         const PreparedQuestion& question, size_t variant, DecisionPrompt& task) const override;

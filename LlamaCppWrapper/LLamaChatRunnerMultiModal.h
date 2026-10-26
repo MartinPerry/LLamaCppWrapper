@@ -30,7 +30,7 @@ public:
 protected:
 	std::string projectorPath;
 
-	mtmd::context_ptr ctx_vision;
+	mtmd_context* ctx_vision;
 	
 	std::vector<llama_pos> n_past_seq;
 	

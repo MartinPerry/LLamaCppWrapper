@@ -7,14 +7,10 @@
 #include <cctype>
 
 Lfm2D1DecisionContext::Lfm2D1DecisionContext() : 
-    DecisionContext(DecisionModelType::LFM2_D1)
+    DecisionContextMultiModal(DecisionModelType::LFM2_D1)
 {
 }
 
-bool Lfm2D1DecisionContext::SupportsMedia() const
-{
-    return true;
-}
 
 void Lfm2D1DecisionContext::InitSetup(const llama_model*, const std::string&)
 {    

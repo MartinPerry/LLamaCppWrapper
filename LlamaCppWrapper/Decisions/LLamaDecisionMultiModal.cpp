@@ -11,6 +11,7 @@
 #include "../Utils/ColorSpace.h"
 
 #include "./LLamaDecisionContext.h"
+#include "./LLamaDecisionContextMultiModal.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "mtmd.lib")
@@ -19,7 +20,8 @@
 LLamaDecisionMultiModal::LLamaDecisionMultiModal(const std::string& modelPath,
     const std::string& projectorPath, const Settings& settings) :
     LLamaDecision(modelPath, settings), 
-    projectorPath(projectorPath)
+    projectorPath(projectorPath),
+    ctx_vision(nullptr)
 {   
     LoadMediaModel();
 }
@@ -30,21 +32,25 @@ LLamaDecisionMultiModal::~LLamaDecisionMultiModal()
 
 void LLamaDecisionMultiModal::InitModel()
 {
-    ctx_vision.reset();
+    mtmd_free(ctx_vision);
+    ctx_vision = nullptr;
+
     LLamaDecision::InitModel();
     LoadMediaModel();
 }
 
 void LLamaDecisionMultiModal::Relase()
 {
-    ctx_vision.reset(); // MTMD borrows the text model: release it first.
+    mtmd_free(ctx_vision);
+    ctx_vision = nullptr;
+
     dcx.reset();
     LLamaWrapper::Relase();
 }
 
 bool LLamaDecisionMultiModal::LoadMediaModel()
-{
-    if ((dcx->SupportsMedia() == false) || (projectorPath.empty())) 
+{    
+    if ((dynamic_cast<DecisionContextMultiModal*>(dcx.get()) == nullptr) || (projectorPath.empty()))
     {
         MY_LOG_ERROR("a supported decision model and projector path are required for media");
         return false;
@@ -62,10 +68,9 @@ bool LLamaDecisionMultiModal::LoadMediaModel()
     mparams.n_threads = 1;
     mtmd_log_set(&LLamaWrapper::CustomErrorLog, &sets);
 
-    auto mtmdModelCtx = mtmd_init_from_file(this->projectorPath.c_str(), model, mparams);
-
-    ctx_vision.reset(mtmdModelCtx);
-    
+    mtmd_free(ctx_vision);
+    ctx_vision = mtmd_init_from_file(this->projectorPath.c_str(), model, mparams);
+            
     if (!ctx_vision) 
     {
         MY_LOG_ERROR("failed to load decision projector from %s", projectorPath.c_str());
@@ -77,48 +82,55 @@ bool LLamaDecisionMultiModal::LoadMediaModel()
 
 bool LLamaDecisionMultiModal::SupportsVision() const
 {
-    return mtmd_support_vision(ctx_vision.get());
+    return mtmd_support_vision(ctx_vision);
 }
 
 bool LLamaDecisionMultiModal::SupportsAudio() const
 {
-    return mtmd_support_audio(ctx_vision.get());
+    return mtmd_support_audio(ctx_vision);
 }
 
 int LLamaDecisionMultiModal::GetAudioSampleRate() const
 {
-    return mtmd_get_audio_sample_rate(ctx_vision.get());
+    return mtmd_get_audio_sample_rate(ctx_vision);
 }
 
 std::unordered_map<std::string, DecisionAnswer> LLamaDecisionMultiModal::Run(
-    const std::vector<Question>& questions, const std::vector<DecisionMedia>& media)
+    const std::vector<DecisionMedia>& media,
+    const std::vector<Question>& questions)
 {
-    return Run("", questions, media);
+    return Run("", media, questions);
 }
 
 std::unordered_map<std::string, DecisionAnswer> LLamaDecisionMultiModal::Run(const std::string& state,
-    const std::vector<Question>& questions, const std::vector<DecisionMedia>& media)
+    const std::vector<DecisionMedia>& media,
+    const std::vector<Question>& questions)
 {
     if (media.empty())
     {
         return LLamaDecision::Run(state, questions);
     }
     
-    using Bitmap = std::unique_ptr<mtmd_bitmap, decltype(&mtmd_bitmap_free)>;
+    auto dcxMulti = dynamic_cast<DecisionContextMultiModal*>(dcx.get());
+    if (dcxMulti == nullptr)
+    {
+        MY_LOG_ERROR("this decision model does not support media");
+        return {};
+    }
 
-    std::vector<Bitmap> owned;
-    std::vector<const mtmd_bitmap*> bitmaps;
-    DecisionMediaInput input;
-    const char* marker = mtmd_get_marker(ctx_vision.get());
+
+    const char* marker = mtmd_get_marker(ctx_vision);
     if (!marker || !*marker) 
     {
         MY_LOG_ERROR("decision projector has no media marker");
         return {};
     }
 
+    DecisionMediaInput input;
+
     for (const auto& item : media) 
-    {
-        Bitmap bitmap(nullptr, mtmd_bitmap_free);
+    {       
+        mtmd_bitmap* result = nullptr;
 
         if (const auto* image = std::get_if<Image2d<uint8_t>>(&item))
         {        
@@ -127,8 +139,7 @@ std::unordered_map<std::string, DecisionAnswer> LLamaDecisionMultiModal::Run(con
                 MY_LOG_ERROR("Unsupported decision image");
                 return {};
             }
-
-            mtmd_bitmap* result = nullptr;
+            
             if (image->GetChannelsCount() == 1)
             {
                 auto imgRgb = ColorSpace::ConvertGrayToRgb(*image);
@@ -144,14 +155,18 @@ std::unordered_map<std::string, DecisionAnswer> LLamaDecisionMultiModal::Run(con
             else
             {
                 result = mtmd_bitmap_init(image->GetWidth(), image->GetHeight(), image->GetData().data());
-            }
-
-            bitmap.reset(result);            
+            }            
         } 
         else 
         {
+            if (SupportsAudio() == false)
+            {
+                MY_LOG_ERROR("Unsupported decision audio");
+                return {};
+            }
+
             const auto& audio = std::get<DecisionAudio>(item);
-            if (!SupportsAudio() || audio.samples.empty() || audio.sampleRate != GetAudioSampleRate() ||
+            if (audio.samples.empty() || audio.sampleRate != GetAudioSampleRate() ||
                 audio.samples.size() > std::numeric_limits<uint32_t>::max() ||
                 std::any_of(audio.samples.begin(), audio.samples.end(), [](float v) { 
                     return !std::isfinite(v); 
@@ -162,89 +177,36 @@ std::unordered_map<std::string, DecisionAnswer> LLamaDecisionMultiModal::Run(con
             }
 
             input.audio = true;
-            bitmap.reset(mtmd_bitmap_init_from_audio(audio.samples.size(), audio.samples.data()));
+            result = mtmd_bitmap_init_from_audio(audio.samples.size(), audio.samples.data());            
         }
-
-        if (!bitmap) 
+                
+        if (result == nullptr) 
         {
-            MY_LOG_ERROR("failed to create decision media bitmap");
-            return {};
+            MY_LOG_ERROR("Failed to process mtmd data");
+            continue;
         }
 
-        bitmaps.push_back(bitmap.get());
-        owned.push_back(std::move(bitmap));
+        input.bitmaps.push_back(result);        
         input.markers.emplace_back(marker);
     }
 
-    input.tokenize = [&](const std::string& prompt, DecisionPrompt& task) {
-        return TokenizeMedia(prompt, bitmaps, task);
-    };
+    input.ctx_vision = ctx_vision;
+    
 
-    return RunInternal(state, questions, &input);
+    dcxMulti->mediaInput = &input;
+    
+    auto res = this->RunInternal(state, questions);
+
+    dcxMulti->mediaInput = nullptr;
+
+    for (auto& bmp : input.bitmaps)
+    {
+        mtmd_bitmap_free(bmp);
+    }    
+
+    return res;
 }
 
-bool LLamaDecisionMultiModal::TokenizeMedia(const std::string& prompt,
-    const std::vector<const mtmd_bitmap*>& bitmaps, DecisionPrompt& task) const
-{
-    task = {};
-    std::unique_ptr<mtmd_input_chunks, decltype(&mtmd_input_chunks_free)> chunks(
-        mtmd_input_chunks_init(), mtmd_input_chunks_free
-    );
-
-    // Match process_mtmd_prompt's default: MTMD adds the model's initial special tokens.
-    const mtmd_input_text text{prompt.c_str(), prompt.size(), true, true};
-
-    if (!chunks || mtmd_tokenize(ctx_vision.get(), chunks.get(), &text, bitmaps.data(), bitmaps.size()) != 0) 
-    {
-        MY_LOG_ERROR("failed to tokenize decision media; check template media markers");
-        return false;
-    }
-
-    for (size_t i = 0; i < mtmd_input_chunks_size(chunks.get()); ++i) 
-    {
-        const auto* chunk = mtmd_input_chunks_get(chunks.get(), i);
-        const size_t count = mtmd_input_chunk_get_n_tokens(chunk);
-
-        if (count > static_cast<size_t>(llama_n_ctx_seq(ctx)) - task.tokens.size()) 
-        {
-            MY_LOG_ERROR("decision media exceed the context size");
-            task = {};
-            return false;
-        }
-
-        if (mtmd_input_chunk_get_type(chunk) == MTMD_INPUT_CHUNK_TYPE_TEXT) 
-        {
-            size_t textCount = 0;
-            const auto* tokens = mtmd_input_chunk_get_tokens_text(chunk, &textCount);
-            if (textCount)
-            {
-                task.tokens.insert(task.tokens.end(), tokens, tokens + textCount);
-            }
-        } 
-        else 
-        {
-            auto copy = std::shared_ptr<const mtmd_input_chunk>(mtmd_input_chunk_copy(chunk), mtmd_input_chunk_free);
-            if (!copy || count == 0) 
-            {
-                MY_LOG_ERROR("empty decision media chunk");
-                task = {};
-                return false;
-            }
-
-            task.mediaChunks.push_back({task.tokens.size(), std::move(copy)});
-            task.tokens.insert(task.tokens.end(), count, LLAMA_TOKEN_NULL);
-        }
-    }
-
-    if (task.mediaChunks.empty()) 
-    {
-        MY_LOG_ERROR("decision template did not produce media chunks");
-        task = {};
-        return false;
-    }
-
-    return true;
-}
 
 bool LLamaDecisionMultiModal::ProcessPrompt(DecisionPrompt& prompt)
 {
@@ -269,7 +231,7 @@ bool LLamaDecisionMultiModal::ProcessPrompt(DecisionPrompt& prompt)
         const size_t count = mtmd_input_chunk_get_n_tokens(media.chunk.get());
         if (media.offset < tailStart || media.offset > prompt.tokens.size() || count == 0 ||
             count > prompt.tokens.size() - media.offset ||
-            (mtmd_decode_use_non_causal(ctx_vision.get(), media.chunk.get()) &&
+            (mtmd_decode_use_non_causal(ctx_vision, media.chunk.get()) &&
                 (count > batchSize || count > physicalSize))) 
         {
             MY_LOG_ERROR("invalid media layout or insufficient batch size for non-causal media");
@@ -388,19 +350,19 @@ bool LLamaDecisionMultiModal::ProcessPrompt(DecisionPrompt& prompt)
 
         const auto* chunk = media.chunk.get();
         const size_t count = mtmd_input_chunk_get_n_tokens(chunk);
-        if (mtmd_encode_chunk(ctx_vision.get(), chunk) != 0) 
+        if (mtmd_encode_chunk(ctx_vision, chunk) != 0) 
         {
             MY_LOG_ERROR("failed to encode decision media");
             return false;
         }
-        const float* embeddings = mtmd_get_output_embd(ctx_vision.get());
+        const float* embeddings = mtmd_get_output_embd(ctx_vision);
         if (!embeddings) 
         {
             MY_LOG_ERROR("decision media encoder returned no embeddings");
             return false;
         }
 
-        const bool nonCausal = mtmd_decode_use_non_causal(ctx_vision.get(), chunk);
+        const bool nonCausal = mtmd_decode_use_non_causal(ctx_vision, chunk);
         llama_set_causal_attn(ctx, nonCausal ? false : causal);
         const auto* image = mtmd_input_chunk_get_type(chunk) == MTMD_INPUT_CHUNK_TYPE_IMAGE
             ? mtmd_input_chunk_get_tokens_image(chunk) : nullptr;
@@ -420,7 +382,7 @@ bool LLamaDecisionMultiModal::ProcessPrompt(DecisionPrompt& prompt)
                 const llama_pos sequential = position + static_cast<llama_pos>(i);
                 llama_pos pos[4] = {sequential, sequential, sequential, sequential};
 
-                if (image && mtmd_decode_use_mrope(ctx_vision.get())) 
+                if (image && mtmd_decode_use_mrope(ctx_vision)) 
                 {
                     const auto decoder = mtmd_image_tokens_get_decoder_pos(image, position, i);
                     pos[0] = static_cast<llama_pos>(decoder.t);

@@ -5,13 +5,11 @@
 
 #include "./LLamaDecisionCodeLabels.h"
 
-class VllmD3DecisionContext : public CodeLabelsDecisionContext 
+class VllmD3DecisionContext : public CodeLabelsDecisionContext<DecisionContextMultiModal>
 {
 public:
     VllmD3DecisionContext();
-
-    bool SupportsMedia() const override;
-
+    
 protected:
 
     void InitSetup(const llama_model* model, const std::string& prefix) override;

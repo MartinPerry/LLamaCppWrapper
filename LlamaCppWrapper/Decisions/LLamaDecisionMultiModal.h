@@ -36,9 +36,11 @@ public:
     int GetAudioSampleRate() const;
     
     std::unordered_map<std::string, DecisionAnswer> Run(const std::string& state,
-        const std::vector<Question>& questions, const std::vector<DecisionMedia>& media);
-    std::unordered_map<std::string, DecisionAnswer> Run(const std::vector<Question>& questions,
-        const std::vector<DecisionMedia>& media);
+        const std::vector<DecisionMedia>& media,
+        const std::vector<Question>& questions);
+
+    std::unordered_map<std::string, DecisionAnswer> Run(const std::vector<DecisionMedia>& media,
+        const std::vector<Question>& questions);
 
 protected:
     bool ProcessPrompt(DecisionPrompt& prompt) override;
@@ -46,11 +48,10 @@ protected:
 private:
     
     std::string projectorPath;
-    mtmd::context_ptr ctx_vision;
+    mtmd_context* ctx_vision;
 
     bool LoadMediaModel();
-    bool TokenizeMedia(const std::string& prompt, const std::vector<const mtmd_bitmap*>& bitmaps,
-        DecisionPrompt& task) const;
+    
 };
 
 #endif

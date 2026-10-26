@@ -25,7 +25,7 @@
 #include "../Utils/Logger.h"
 
 #include "./LlamaDecisionContext.h"
-
+#include "./LLamaDecisionContextMultiModal.h"
 
 //============================================================================================================================
 //============================================================================================================================
@@ -100,20 +100,8 @@ std::unordered_map<std::string, DecisionAnswer> LLamaDecision::Run(const std::ve
 }
 
 std::unordered_map<std::string, DecisionAnswer> LLamaDecision::RunInternal(const std::string& state,
-    const std::vector<Question>& inputQuestions, const DecisionMediaInput* media)
-{    
-    if (media && !dcx->SupportsMedia()) 
-	{
-        MY_LOG_ERROR("this decision model does not support media");
-        return {};
-    }
-
-    dcx->mediaInput = media;
-    struct ResetMediaInput {
-        DecisionContext& context;
-        ~ResetMediaInput() { context.mediaInput = nullptr; }
-    } resetMediaInput{*dcx};
-
+    const std::vector<Question>& inputQuestions)
+{        
 	if (dcx->SetNullState((state == "")) == false)
 	{
 		return {};
@@ -124,7 +112,7 @@ std::unordered_map<std::string, DecisionAnswer> LLamaDecision::RunInternal(const
 	{
 		return {};
 	}
-
+	
 	// Prepare and validate every prompt before evaluating any question.
 	std::vector<DecisionPrompt> prompts;
 	if (dcx->IsJointTask()) 
@@ -194,7 +182,7 @@ std::unordered_map<std::string, DecisionAnswer> LLamaDecision::RunInternal(const
 					scores.push_back(std::move(outputs.at(resultIndex++)));
 				}
 			}
-			answers.try_emplace(question.id, dcx->FormatAnswer(question, scores, media != nullptr));
+			answers.try_emplace(question.id, dcx->FormatAnswer(question, scores));
 		}
 
 		if (dcx->IsJointTask() && scoreIndex != outputs.at(0).size())

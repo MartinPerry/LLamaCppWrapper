@@ -8,13 +8,8 @@
 
 
 OpenJevDecisionContext::OpenJevDecisionContext() :
-	DecisionContext(DecisionModelType::OPENJEV)
+	DecisionContextMultiModal(DecisionModelType::OPENJEV)
 {
-}
-
-bool OpenJevDecisionContext::SupportsMedia() const
-{
-	return true;
 }
 
 void OpenJevDecisionContext::InitSetup(const llama_model* model, const std::string& prefix)

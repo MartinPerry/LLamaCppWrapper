@@ -165,11 +165,6 @@ DecisionContext::DecisionContext(DecisionModelType modelType) :
 {
 }
 
-bool DecisionContext::SupportsMedia() const
-{
-	return false;
-}
-
 bool DecisionContext::IsJointTask() const
 {
 	return false;
@@ -501,36 +496,13 @@ size_t DecisionContext::GetOutputsCount(const PreparedQuestion& question) const
 
 std::string DecisionContext::RunTemplate(const PromptInput& input) const
 {
-    if (!mediaInput) {
-        return (this->customPromptBuilder) ? this->customPromptBuilder(input) : this->tpl->Run(input);
-    }
-    PromptInput prepared = input;
-    // Escape caller-controlled media markers before adding the real template markers.
-    auto clean = [&](std::string& text) {
-        for (const auto& marker : mediaInput->markers) replace_all(text, marker, " ");
-    };
-    auto cleanQuestion = [&](Question& question) {
-        clean(question.id);
-        clean(question.instructions);
-        for (auto& option : question.criteria) {
-            clean(option.key);
-            if (option.value) clean(*option.value);
-        }
-    };
-    clean(prepared.state);
-    cleanQuestion(prepared.question);
-    for (auto& question : prepared.questions) cleanQuestion(question);
-    for (auto& label : prepared.labels) clean(label);
-    for (auto& labels : prepared.questionLabels) for (auto& label : labels) clean(label);
-    prepared.images = mediaInput->markers;
-    prepared.audio = mediaInput->audio;
-    return customPromptBuilder ? customPromptBuilder(prepared) : tpl->Run(prepared);
+    return (this->customPromptBuilder) ? this->customPromptBuilder(input) : this->tpl->Run(input);    
 }
 
 bool DecisionContext::TokenizePrompt(const std::string& prompt, DecisionPrompt& task) const
-{
-    if (mediaInput) return mediaInput->tokenize(prompt, task);
+{   
     task.tokens = tokenize(vocab, prompt, false, true);
+
     return true;
 }
 
@@ -689,7 +661,7 @@ std::vector<float> DecisionContext::AggregateLabelScores(const std::vector<float
     return result;
 }
 
-DecisionAnswer DecisionContext::FormatAnswer(const PreparedQuestion& question, const std::vector<std::vector<float>>& scores, bool has_media) const
+DecisionAnswer DecisionContext::FormatAnswer(const PreparedQuestion& question, const std::vector<std::vector<float>>& scores) const
 {
 	const size_t n = this->GetOutputsCount(question);
 	if (scores.size() != this->GetVariantsCount(question))
@@ -698,8 +670,7 @@ DecisionAnswer DecisionContext::FormatAnswer(const PreparedQuestion& question, c
 	}
 
 	// softmax over the outputs of each variant, then the average of the variants
-	const float temperature = (has_media && modelType == DecisionModelType::LFM2_D1_OMNI) ? 
-		1.0f : get_temperature(question);
+	const float temperature = this->GetTemperature(question);
 
 	std::vector<double> probs(n, 0.0);
 
@@ -788,7 +759,7 @@ DecisionAnswer DecisionContext::FormatAnswer(const PreparedQuestion& question, c
 	return answer;
 }
 
-float DecisionContext::get_temperature(const PreparedQuestion& question) const 
+float DecisionContext::GetTemperature(const PreparedQuestion& question) const 
 {
 	const size_t n = question.criteria.size();
 	const std::string type_name = QuestionTypeToString(question.type);
@@ -798,7 +769,7 @@ float DecisionContext::get_temperature(const PreparedQuestion& question) const
 	if (modelType == DecisionModelType::LEV) 
 	{
 		bucket = n <= 8 ? "small" : n <= 26 ? "mid" : "large";
-	}
+	}	
 	else 
 	{
 		bucket = n <= 2 ? "2" : n <= 5 ? "3_5" : n <= 10 ? "6_10" : "11";
@@ -811,7 +782,7 @@ float DecisionContext::get_temperature(const PreparedQuestion& question) const
 		{
 			return it->second;
 		}
-	}
+	}	
 
 	return 1.0f;
 }

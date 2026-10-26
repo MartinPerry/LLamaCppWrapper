@@ -5,7 +5,7 @@
 
 #include "./LLamaDecisionCodeLabels.h"
 
-class GraniteSwitchDecisionContext : public CodeLabelsDecisionContext 
+class GraniteSwitchDecisionContext : public CodeLabelsDecisionContext<DecisionContext>
 {
 public:
     GraniteSwitchDecisionContext();

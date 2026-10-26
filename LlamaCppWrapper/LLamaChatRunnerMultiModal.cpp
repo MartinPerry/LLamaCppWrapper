@@ -2,8 +2,6 @@
 
 #if __has_include (<llama.h>) && __has_include (<mtmd.h>)
 
-#include <stdexcept>
-
 #include <mtmd-helper.h>
 
 #include "./Utils/Logger.h"
@@ -31,13 +29,16 @@ else if (params.chat_template == "deepseek")
 LLamaChatRunnerMultiModal::LLamaChatRunnerMultiModal(const std::string& modelPath, const std::string& projectorPath,
 	const Settings& sets) : 
 	LLamaChatRunner(modelPath, sets),
-	projectorPath(projectorPath)	
+	projectorPath(projectorPath),
+	ctx_vision(nullptr)
 {
 		
 }
 
 LLamaChatRunnerMultiModal::~LLamaChatRunnerMultiModal()
 {
+	mtmd_free(ctx_vision);
+	ctx_vision = nullptr;
 }
 
 void LLamaChatRunnerMultiModal::InitModel()
@@ -46,7 +47,8 @@ void LLamaChatRunnerMultiModal::InitModel()
 
 	if (this->LoadImageModel() == false)
 	{
-		throw std::runtime_error("load_image_projector failed");
+		MY_LOG_ERROR("load_image_projector failed");
+		return;
 	}
 
 	const int n_batch = this->GetMaxTokensForAllBatches();
@@ -79,11 +81,10 @@ bool LLamaChatRunnerMultiModal::LoadImageModel()
 		
 	mtmd_log_set(&LLamaWrapper::CustomErrorLog, &this->sets);
 
-	auto mtmdModelCtx = mtmd_init_from_file(this->projectorPath.c_str(), model, mparams);
-
-	ctx_vision.reset(mtmdModelCtx);
-	
-	if (!ctx_vision.get())
+	mtmd_free(ctx_vision);
+	ctx_vision = mtmd_init_from_file(this->projectorPath.c_str(), model, mparams);
+		
+	if (!ctx_vision)
 	{
 		MY_LOG_ERROR("Failed to load vision model from %s", this->projectorPath.c_str());
 		return false;
@@ -105,7 +106,7 @@ void LLamaChatRunnerMultiModal::EvalMtmd(llama_seq_id seqId, const std::string& 
 	mtmd::input_chunks chunks(mtmd_input_chunks_init());
 	auto bitmaps_c_ptr = bmps.c_ptr();
 
-	int32_t res = mtmd_tokenize(ctx_vision.get(),
+	int32_t res = mtmd_tokenize(ctx_vision,
 		chunks.ptr.get(), // output
 		&text, // text
 		bitmaps_c_ptr.data(),
@@ -113,14 +114,14 @@ void LLamaChatRunnerMultiModal::EvalMtmd(llama_seq_id seqId, const std::string& 
 	if (res != 0)
 	{		
 		MY_LOG_ERROR("Unable to tokenize prompt, res = %d", res);
-		throw std::runtime_error("Unable to tokenize prompt");		
+		return;
 	}
 
 	bmps.entries.clear();
 	
 	llama_pos new_n_past = 0;
 
-	res = mtmd_helper_eval_chunks(ctx_vision.get(),
+	res = mtmd_helper_eval_chunks(ctx_vision,
 		ctx, // lctx
 		chunks.ptr.get(), // chunks
 		this->n_past_seq[seqId], // n_past
@@ -271,7 +272,7 @@ std::vector<std::string> LLamaChatRunnerMultiModal::Loop(const std::vector<std::
 			if (r != 0)
 			{
 				LLamaWrapper::LogDecodeProcessError(r, __func__);
-				throw std::runtime_error("llama_decode failed");
+				return;
 			}			
 		}
 	};

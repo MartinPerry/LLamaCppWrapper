@@ -7,11 +7,6 @@ VllmD3DecisionContext::VllmD3DecisionContext() :
 {
 }
 
-bool VllmD3DecisionContext::SupportsMedia() const
-{
-    return true;
-}
-
 void VllmD3DecisionContext::InitSetup(const llama_model* model, const std::string& prefix)
 {
     CodeLabelsDecisionContext::InitSetup(model, prefix);    

@@ -29,6 +29,7 @@
     <ClCompile Include="3rdParty\unicode.cpp" />
     <ClCompile Include="Decisions\LLamaDecision.cpp" />
     <ClCompile Include="Decisions\LLamaDecisionContext.cpp" />
+    <ClCompile Include="Decisions\LLamaDecisionContextMultiModal.cpp" />
     <ClCompile Include="Decisions\LLamaDecisionMultiModal.cpp" />
     <ClCompile Include="Decisions\LLamaDecisionTemplate.cpp" />
     <ClCompile Include="Decisions\Models\LLamaDecisionClef.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="3rdParty\unicode.h" />
     <ClInclude Include="Decisions\LLamaDecision.h" />
     <ClInclude Include="Decisions\LLamaDecisionContext.h" />
+    <ClInclude Include="Decisions\LLamaDecisionContextMultiModal.h" />
     <ClInclude Include="Decisions\LLamaDecisionMultiModal.h" />
     <ClInclude Include="Decisions\LLamaDecisionStructures.h" />
     <ClInclude Include="Decisions\LLamaDecisionTemplate.h" />

@@ -7,9 +7,4 @@ PplxDeciderDecisionContext::PplxDeciderDecisionContext() :
 {    
 }
 
-bool PplxDeciderDecisionContext::SupportsMedia() const
-{
-    return true;
-}
-
 #endif

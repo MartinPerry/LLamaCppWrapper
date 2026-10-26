@@ -33,9 +33,7 @@ struct DecisionContext
 		
 	CustomPromptBuilder customPromptBuilder;
 	std::shared_ptr<DecisionTemplate> tpl = nullptr;
-		
-	virtual bool SupportsMedia() const;
-
+			
 	std::vector<PreparedQuestion> PrepareQuestions(const std::vector<Question>& input) const;
 	
 	virtual size_t GetVariantsCount(const PreparedQuestion& question) const;
@@ -44,11 +42,9 @@ struct DecisionContext
 	virtual void FillTask(const std::string& state, const std::vector<PreparedQuestion>& questions,
 		const PreparedQuestion& question, size_t variant, DecisionPrompt& task) const;
 	
-	DecisionAnswer FormatAnswer(const PreparedQuestion& question, const std::vector<std::vector<float>>& scores, bool has_media = false) const;
+	DecisionAnswer FormatAnswer(const PreparedQuestion& question, const std::vector<std::vector<float>>& scores) const;
 	bool SetNullState(bool value);
-	
-    const DecisionMediaInput* mediaInput = nullptr; // Valid only during RunInternal.
-
+	    
 protected:
 	const DecisionModelType modelType;
 
@@ -71,18 +67,18 @@ protected:
 				
 	DecisionContext(DecisionModelType modelType);
 	
-	void Init(const llama_model* model, const std::string& prefix);
+	virtual void Init(const llama_model* model, const std::string& prefix);
 	
 	
-	std::string RunTemplate(const PromptInput& input) const;
-    bool TokenizePrompt(const std::string& prompt, DecisionPrompt& task) const;
+	virtual std::string RunTemplate(const PromptInput& input) const;
+    virtual bool TokenizePrompt(const std::string& prompt, DecisionPrompt& task) const;
 
 	std::string Render(const std::string& state, const std::vector<PreparedQuestion>& questions,
 		const PreparedQuestion& question, size_t variant) const;
 	
 	virtual size_t GetOutputsCount(const PreparedQuestion& question) const;
 	
-	float get_temperature(const PreparedQuestion& question) const;
+	virtual float GetTemperature(const PreparedQuestion& question) const;
 
 
 	//model-specific overloads

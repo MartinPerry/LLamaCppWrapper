@@ -3,6 +3,10 @@
 
 #if __has_include (<llama.h>)
 
+struct mtmd_context;
+struct mtmd_bitmap;
+struct mtmd_input_chunk;
+
 #include <string>
 #include <optional>
 #include <vector>
@@ -87,7 +91,6 @@ struct DecisionAnswer
     std::vector<float> probabs;
 };
 
-struct mtmd_input_chunk;
 
 struct DecisionMediaChunk
 {
@@ -119,7 +122,7 @@ struct PromptInput
     // Option labels for LEV/NIMBLE; LEV NOUL instead has nine rating labels.
     std::vector<std::string> labels;
     std::vector<std::vector<std::string>> questionLabels;
-    DecisionModelType modelType;
+    DecisionModelType modelType = DecisionModelType::UNKNOWN;
     size_t variant = 0;
     bool joint = false;
     std::string separator;
@@ -138,7 +141,8 @@ struct DecisionMediaInput
 {
     std::vector<std::string> markers;
     bool audio = false;
-    std::function<bool(const std::string&, DecisionPrompt&)> tokenize;
+    std::vector<mtmd_bitmap*> bitmaps;
+    mtmd_context* ctx_vision = nullptr;
 };
 
 #endif

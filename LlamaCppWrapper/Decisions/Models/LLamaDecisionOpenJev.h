@@ -3,14 +3,13 @@
 
 #if __has_include (<llama.h>)
 
-#include "../LLamaDecisionContext.h"
+#include "../LLamaDecisionContextMultiModal.h"
 
-class OpenJevDecisionContext : public DecisionContext 
+class OpenJevDecisionContext : public DecisionContextMultiModal
 {
 public:
     OpenJevDecisionContext();
 
-    bool SupportsMedia() const override;
 
 protected:
 

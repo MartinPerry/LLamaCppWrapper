@@ -5,7 +5,7 @@
 
 #include "./LLamaDecisionCodeLabels.h"
 
-class NimbleDecisionContext : public CodeLabelsDecisionContext
+class NimbleDecisionContext : public CodeLabelsDecisionContext<DecisionContext>
 {
 public:
     NimbleDecisionContext();

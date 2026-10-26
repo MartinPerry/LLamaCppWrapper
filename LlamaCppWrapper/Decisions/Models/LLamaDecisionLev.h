@@ -5,7 +5,7 @@
 
 #include "./LLamaDecisionCodeLabels.h"
 
-class LevDecisionContext : public CodeLabelsDecisionContext
+class LevDecisionContext : public CodeLabelsDecisionContext<DecisionContext>
 {
 public:
     LevDecisionContext();

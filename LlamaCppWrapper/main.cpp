@@ -232,7 +232,7 @@ int main(int argc, char** argv)
 
 		// A one-pixel RGB example. Supply your decoded image's dimensions and pixels.
 		Image2d<uint8_t> image(1, 1, { 0,0,0 }, ColorSpace::PixelFormat::RGB);
-		auto answers = decision.Run("Classify the supplied image.", { question }, { image });
+		auto answers = decision.Run("Classify the supplied image.", { image }, { question });
 
 		printf("mtmd");
 	}

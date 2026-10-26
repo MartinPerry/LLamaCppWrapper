@@ -3,14 +3,13 @@
 
 #if __has_include (<llama.h>)
 
-#include "../LLamaDecisionContext.h"
+#include "../LLamaDecisionContextMultiModal.h"
 
-class ClefDecisionContext : public DecisionContext
+class ClefDecisionContext : public DecisionContextMultiModal
 {
 public:
     ClefDecisionContext(DecisionModelType type = DecisionModelType::CLEF);
-
-    bool SupportsMedia() const override;
+    
     bool IsJointTask() const override;
 
     void FillTask(const std::string& state, const std::vector<PreparedQuestion>& questions,

@@ -5,12 +5,11 @@
 
 #include "./LLamaDecisionCodeLabels.h"
 
-class PplxDeciderDecisionContext : public CodeLabelsDecisionContext 
+class PplxDeciderDecisionContext : public CodeLabelsDecisionContext<DecisionContextMultiModal>
 {
 public:
     PplxDeciderDecisionContext();
-
-    bool SupportsMedia() const override;
+    
 };
 
 #endif

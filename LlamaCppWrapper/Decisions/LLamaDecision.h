@@ -49,8 +49,10 @@ public:
 protected:
     std::unique_ptr<DecisionContext> dcx;
 
-    std::unordered_map<std::string, DecisionAnswer> RunInternal(const std::string& state,
-        const std::vector<Question>& questions, const DecisionMediaInput* media = nullptr);
+    std::unordered_map<std::string, DecisionAnswer> RunInternal(
+        const std::string& state,
+        const std::vector<Question>& questions
+    );
 
     // May remap the output layout to the final batch after prefilling media.
     virtual bool ProcessPrompt(DecisionPrompt& prompt);

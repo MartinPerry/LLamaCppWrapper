@@ -3,15 +3,13 @@
 
 #if __has_include (<llama.h>)
 
-#include "../LLamaDecisionContext.h"
+#include "../LLamaDecisionContextMultiModal.h"
 
-class Lfm2D1DecisionContext : public DecisionContext 
+class Lfm2D1DecisionContext : public DecisionContextMultiModal
 {
 public:
     Lfm2D1DecisionContext();
-
-    bool SupportsMedia() const override;
-
+    
 protected:
 
     void InitSetup(const llama_model* model, const std::string& prefix) override;

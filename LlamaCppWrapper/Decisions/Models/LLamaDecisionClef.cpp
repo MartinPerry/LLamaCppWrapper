@@ -13,14 +13,10 @@
 #include <llama.h>
 
 ClefDecisionContext::ClefDecisionContext(DecisionModelType type) :
-	DecisionContext(type)
+	DecisionContextMultiModal(type)
 {
 }
 
-bool ClefDecisionContext::SupportsMedia() const
-{
-	return true;
-}
 
 bool ClefDecisionContext::IsJointTask() const
 {

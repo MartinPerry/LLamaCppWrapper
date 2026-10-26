@@ -13,14 +13,10 @@ static const std::string D1OMNI_MARK_QUESTION = "<<d1omni:question>>";
 static const std::string D1OMNI_MARK_OPTION = "<<d1omni:option>>";
 
 Lfm2D1OmniDecisionContext::Lfm2D1OmniDecisionContext() : 
-    DecisionContext(DecisionModelType::LFM2_D1_OMNI) 
+    DecisionContextMultiModal(DecisionModelType::LFM2_D1_OMNI)
 {
 }
 
-bool Lfm2D1OmniDecisionContext::SupportsMedia() const
-{
-    return true;
-}
 
 void Lfm2D1OmniDecisionContext::InitSetup(const llama_model*, const std::string&)
 {    
@@ -64,13 +60,21 @@ void Lfm2D1OmniDecisionContext::FillTask(const std::string& state, const std::ve
 {
     task = {};
     std::string mediaMarkers;
-    if (mediaInput) {
-        if (mediaInput->audio && mediaInput->markers.size() != 1) {
+    if (mediaInput) 
+    {
+        if (mediaInput->audio && mediaInput->markers.size() != 1) 
+        {
             MY_LOG_ERROR("a request has images or one audio clip, not both");
             return;
         }
-        for (const auto& marker : mediaInput->markers) mediaMarkers += marker;
-        if (!this->TokenizePrompt(mediaMarkers, task)) {
+
+        for (const auto& marker : mediaInput->markers)
+        {
+            mediaMarkers += marker;
+        }
+
+        if (!this->TokenizePrompt(mediaMarkers, task)) 
+        {
             task = {};
             return;
         }

@@ -83,6 +83,11 @@ void DecisionContextMultiModal::Init(const llama_model* model, const std::string
 
 std::string DecisionContextMultiModal::RunTemplate(const PromptInput& input) const
 {        
+    if (mediaInput == nullptr)
+    {
+        return DecisionContext::RunTemplate(input);
+    }
+
     // Escape caller-controlled media markers before adding the real template markers.
     auto clean = [&](std::string& text) {
         for (const auto& marker : mediaInput->markers)

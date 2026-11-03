@@ -208,7 +208,7 @@ bool LLamaWrapper::LoadModel()
     ctx_params.n_ctx = sets.ctxSize * sets.n_parallel;
     //ctx_params.n_batch = (sets.logicalBatchSize == 0) ? ctx_params.n_ctx : sets.logicalBatchSize;    
     ctx_params.n_batch = ctx_params.n_ctx;  //std::max<uint32_t>(sets.ctxSize, sets.n_parallel);    
-    ctx_params.n_ubatch = (sets.physicalBatchSize == 0) ? ctx_params.n_ubatch : sets.physicalBatchSize;
+    ctx_params.n_ubatch = (sets.physicalBatchSize == 0) ? ctx_params.n_batch : sets.physicalBatchSize;
     ctx_params.n_seq_max = sets.n_parallel;
     ctx_params.kv_unified = (sets.n_parallel > 1) ? true : false;
 
